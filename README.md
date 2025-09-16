@@ -22,7 +22,7 @@ Fournir aux investisseurs immobiliers une **analyse claire et interactive** des 
 ### 1. **Installation**
 ```bash
 # Cloner le projet
-git clone <url-du-repo>
+git clone https://github.com/frankigoes6/ProjetFoncier.git
 cd ProjetFoncier
 
 # Créer un environnement virtuel
@@ -61,7 +61,7 @@ ProjetFoncier/
 ├── 📁 src/
 │   └── dvf_utils.py                         # Fonctions utilitaires
 ├── 📁 outputs/
-│   └── dvf_cleaned_2019_2023.csv            # Données nettoyées (générées)
+│   └── dvf_cleaned_2024.csv            # Données nettoyées (générées)
 └── requirements.txt                          # Dépendances Python
 ```
 
@@ -99,7 +99,7 @@ Type: [Appartement, Maison]
 ### **Indicateurs Clés du Marché**
 - � **Prix médian** : 4,800€/m² (appartements) | 3,200€/m² (maisons)
 - � **Zones attractives** : Évry, Créteil, Villeneuve-Saint-Georges  
-- 📈 **Évolution** : +8% sur la période 2019-2023
+- 📈 **Évolution** : +8% sur la période 2024
 - 🏠 **Opportunités** : Maisons 100-200m² dans le 91
 
 ### **Recommandations Types**

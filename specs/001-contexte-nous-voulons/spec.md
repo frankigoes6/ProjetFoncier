@@ -64,7 +64,7 @@ Un investisseur immobilier locatif en région parisienne souhaite identifier les
 - **FR-009**: Le système DOIT identifier les types de biens les plus intéressants (appartement, maison, etc.)
 - **FR-010**: Le système DOIT détecter les zones à éviter (faible rentabilité, prix en baisse)
 - **FR-011**: Le système DOIT calculer des indicateurs de rentabilité potentielle selon la méthodologie : prix au m² d'achat (valeur_fonciere / surface_reelle_bati), estimation du loyer au m² via source externe (data.gouv.fr), et calcul du rendement brut = (loyer annuel estimé / prix d'achat) × 100
-- **FR-012**: Le système DOIT analyser les données sur la période 2019-2023 (inclus) avec possibilité de filtrage interactif par année
+- **FR-012**: Le système DOIT analyser les données sur la période 2024 (inclus) avec possibilité de filtrage interactif par année
 
 ### Key Entities *(include if feature involves data)*
 - **Transaction Immobilière**: Représente une vente de bien immobilier avec prix, surface, localisation, date, type de bien

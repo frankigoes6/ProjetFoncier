@@ -50,7 +50,7 @@
 - [ ] T008 Load and inspect assets/dataset.csv in notebooks/01_preprocessing.ipynb
 - [ ] T009 Analyze DVF data structure: columns, data types, missing values in notebooks/01_preprocessing.ipynb
 - [ ] T010 Clean data: handle missing values, remove duplicates, normalize postal codes/communes in notebooks/01_preprocessing.ipynb
-- [ ] T011 Filter data for 2019-2023 period in notebooks/01_preprocessing.ipynb
+- [ ] T011 Filter data for 2024 period in notebooks/01_preprocessing.ipynb
 - [ ] T012 Create essential derived variable: prix_m2 calculation in notebooks/01_preprocessing.ipynb (SIMPLIFIED: removed complex categorizations)
 - [ ] T013 Validate cleaned data integrity and export preprocessed dataset in notebooks/01_preprocessing.ipynb
 - [ ] T014 [P] Create utility functions in src/dvf_utils.py for data loading and basic calculations
@@ -60,7 +60,7 @@
 - [ ] T015 Load cleaned data and create initial exploration section in notebooks/02_application_investisseur.ipynb
 - [ ] T016 Implement descriptive statistics: price, surface, rooms by department/commune in notebooks/02_application_investisseur.ipynb
 - [ ] T017 Add property type analysis (apartment, house) with simple widgets in notebooks/02_application_investisseur.ipynb
-- [ ] T018 Create temporal evolution analysis: price trends 2019-2023 in notebooks/02_application_investisseur.ipynb
+- [ ] T018 Create temporal evolution analysis: price trends 2024 in notebooks/02_application_investisseur.ipynb
 - [ ] T019 Implement main interactive dashboard with ipywidgets: department filter, year slider, price/surface filters in notebooks/02_application_investisseur.ipynb
 - [ ] T020 Add matplotlib visualizations: histograms, boxplots, temporal curves that update with dashboard in notebooks/02_application_investisseur.ipynb
 - [ ] T021 Create dynamic statistics panel showing top communes, price ranges, volume counts in notebooks/02_application_investisseur.ipynb
@@ -135,7 +135,7 @@ Task: "Run linting and code quality checks on src/dvf_utils.py"
 - **FR-009**: Property type analysis → T017
 - **FR-010**: Zone analysis → T021 (integrated in dashboard)
 - **FR-011**: Investment insights → T022 (based on DVF data only, no external rental data)
-- **FR-012**: 2019-2023 period analysis → T011
+- **FR-012**: 2024 period analysis → T011
 
 ## Validation Checklist (SIMPLIFIED)
 *GATE: Checked before project completion*
