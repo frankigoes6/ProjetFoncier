@@ -1,0 +1,13 @@
+code_departement,type_bien_estime,score_final_mean,rendement_brut_mean,prix_m2_mean,valeur_fonciere_mean,valeur_fonciere_count
+91,Grande maison,5.16,6.71,3464.35,878284.83,1886
+91,Grand appartement,5.12,6.54,3496.38,238720.59,3473
+91,Maison familiale,5.11,6.44,3445.9,326955.83,3714
+91,Appartement moyen,4.95,5.66,4372.7,213368.78,2483
+91,Petit appartement,4.81,5.06,5192.1,166961.36,1261
+91,Studio/T1,4.63,4.23,6283.6,127508.78,412
+94,Grand appartement,4.39,5.55,5024.5,340997.23,3581
+94,Grande maison,4.35,5.39,5623.2,1250388.53,1128
+94,Maison familiale,4.35,5.32,5318.23,501401.79,2500
+94,Appartement moyen,4.23,4.8,5874.04,287331.41,3664
+94,Petit appartement,4.09,4.19,6869.11,223111.13,2110
+94,Studio/T1,4.07,4.11,6974.56,137490.83,702

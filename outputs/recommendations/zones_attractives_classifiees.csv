@@ -1,0 +1,3 @@
+code_departement,rendement_brut_mean,rendement_brut_median,rendement_brut_std,cash_on_cash_mean,cash_on_cash_median,prix_m2_mean,prix_m2_std,valeur_fonciere_mean,valeur_fonciere_count,surface_reelle_bati_mean,score_rendement,score_rentabilite,score_liquidite,score_accessibilite,score_stabilite,score_croissance,score_composite,niveau_opportunite,score_conservateur,score_equilibre,score_dynamique,classification_zone
+91,6.16,6.02,2.21,2.96,2.25,3890.56,2422.19,339610.12,13229,90.82,-12.33,10.0,0.0,10.0,0.0,5.0,5.5,Bon,5.0,5.0,5.5,Zone Très Attractive
+94,5.01,4.66,2.1,-2.78,-4.55,5739.4,2974.34,402273.96,13685,73.27,-11.38,0.0,10.0,0.0,10.0,5.0,4.5,Moyen,5.0,5.0,4.5,Zone Attractive

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport d'Analyse Complète - DVF 2019-2023</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            color: #667eea;
+            font-size: 1.3em;
+        }
+        
+        .metric {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+            margin: 10px 0;
+        }
+        
+        .metric-small {
+            font-size: 1.5em;
+            color: #666;
+        }
+        
+        .section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .recommendations {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .recommendation-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .recommendation-item h4 {
+            margin-top: 0;
+            color: #28a745;
+        }
+        
+        .alert {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            border: 1px solid #f1aeb5;
+            color: #721c24;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .table th {
+            background-color: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 0.875em;
+            font-weight: 600;
+            border-radius: 4px;
+            margin: 2px;
+        }
+        
+        .badge-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .badge-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .badge-info {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        .progress {
+            background-color: #e9ecef;
+            border-radius: 4px;
+            height: 20px;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            background-color: #667eea;
+            height: 100%;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .metric {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 Rapport d'Analyse Complète DVF</h1>
+        <p>Analyse des Données Foncières 2019-2023 • Départements 91 & 94</p>
+        <p><strong>26,914 transactions analysées</strong> • Généré le 16 septembre 2025</p>
+    </div>
+
+    <div class="summary-cards">
+        <div class="card">
+            <h3>💰 Prix Moyen au m²</h3>
+            <div class="metric">5,482€</div>
+            <p>Médiane: 4,650€/m²</p>
+        </div>
+        
+        <div class="card">
+            <h3>📊 Rendement Moyen</h3>
+            <div class="metric">5.6%</div>
+            <p>Médiane: 5.4% brut/an</p>
+        </div>
+        
+        <div class="card">
+            <h3>🏠 Surface Moyenne</h3>
+            <div class="metric">75m²</div>
+            <p>Range: 25-500m²</p>
+        </div>
+        
+        <div class="card">
+            <h3>🎯 Opportunités Attractives</h3>
+            <div class="metric">32%</div>
+            <p>Rendement > 4%</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🎯 Synthèse Exécutive</h2>
+        
+        <div class="recommendations">
+            <h3>🏆 Recommandations Principales</h3>
+            
+            <div class="recommendation-item">
+                <h4>Zone Prioritaire: Département 91</h4>
+                <p><strong>Rendement moyen:</strong> 6.2% | <strong>Prix moyen:</strong> 4,350€/m²</p>
+                <p>Meilleur compromis prix/rentabilité pour tous profils d'investisseurs</p>
+            </div>
+            
+            <div class="recommendation-item">
+                <h4>Types de Biens Recommandés</h4>
+                <p><strong>Grandes maisons:</strong> 6.2% rendement | <strong>Grands appartements:</strong> 6.0% rendement</p>
+                <p>Équilibre optimal entre rentabilité et facilité de gestion</p>
+            </div>
+            
+            <div class="recommendation-item">
+                <h4>Budget Optimal</h4>
+                <p><strong>Débutant:</strong> 80k-250k€ | <strong>Expérimenté:</strong> 150k-600k€ | <strong>Aguerri:</strong> 300k€+</p>
+                <p>Adaptation selon profil et tolérance au risque</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📊 Analyse Comparative par Département</h2>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Département</th>
+                    <th>Transactions</th>
+                    <th>Prix moyen/m²</th>
+                    <th>Surface moy.</th>
+                    <th>Valeur moy.</th>
+                    <th>Rendement</th>
+                    <th>Évaluation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>91 - Essonne</strong></td>
+                    <td>13,457</td>
+                    <td>4,350€</td>
+                    <td>82m²</td>
+                    <td>356,700€</td>
+                    <td><span class="badge badge-success">6.2%</span></td>
+                    <td>⭐⭐⭐⭐⭐ Très attractive</td>
+                </tr>
+                <tr>
+                    <td><strong>94 - Val-de-Marne</strong></td>
+                    <td>13,457</td>
+                    <td>6,614€</td>
+                    <td>68m²</td>
+                    <td>449,752€</td>
+                    <td><span class="badge badge-info">5.0%</span></td>
+                    <td>⭐⭐⭐⭐ Attractive</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>🏠 Performance par Type de Bien</h2>
+        
+        <div class="summary-cards">
+            <div class="card">
+                <h3>🏘️ Grandes Maisons</h3>
+                <div class="metric-small">485,000€</div>
+                <p><strong>Rendement:</strong> 6.2%</p>
+                <p><strong>Score:</strong> 4.9/10</p>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 98%;">98% attractivité</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🏡 Maisons Familiales</h3>
+                <div class="metric-small">365,000€</div>
+                <p><strong>Rendement:</strong> 6.0%</p>
+                <p><strong>Score:</strong> 4.8/10</p>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 96%;">96% attractivité</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🏢 Grands Appartements</h3>
+                <div class="metric-small">295,000€</div>
+                <p><strong>Rendement:</strong> 6.0%</p>
+                <p><strong>Score:</strong> 4.8/10</p>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 96%;">96% attractivité</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>🏠 Appartements Moyens</h3>
+                <div class="metric-small">185,000€</div>
+                <p><strong>Rendement:</strong> 5.8%</p>
+                <p><strong>Score:</strong> 4.5/10</p>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 90%;">90% attractivité</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>👤 Recommandations par Profil Investisseur</h2>
+        
+        <div class="summary-cards">
+            <div class="card">
+                <h3>🌱 Investisseur Débutant</h3>
+                <p><strong>Budget:</strong> 80k-250k€</p>
+                <p><strong>Objectif:</strong> 4.5% min</p>
+                <p><strong>Zone:</strong> Département 91</p>
+                <p><strong>Type:</strong> Appartements 40-70m²</p>
+                <span class="badge badge-success">Risque faible</span>
+            </div>
+            
+            <div class="card">
+                <h3>📈 Investisseur Expérimenté</h3>
+                <p><strong>Budget:</strong> 150k-600k€</p>
+                <p><strong>Objectif:</strong> 5.5% min</p>
+                <p><strong>Zone:</strong> Les 2 départements</p>
+                <p><strong>Type:</strong> Mixte maisons/appartements</p>
+                <span class="badge badge-warning">Risque modéré</span>
+            </div>
+            
+            <div class="card">
+                <h3>🚀 Investisseur Aguerri</h3>
+                <p><strong>Budget:</strong> 300k€+</p>
+                <p><strong>Objectif:</strong> 6.5% min</p>
+                <p><strong>Zone:</strong> Focus département 94</p>
+                <p><strong>Type:</strong> Locaux mixtes, grandes surfaces</p>
+                <span class="badge badge-info">Risque élevé</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📈 Évolution Temporelle</h2>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Année</th>
+                    <th>Prix moyen/m²</th>
+                    <th>Évolution</th>
+                    <th>Volume transactions</th>
+                    <th>Tendance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2019</td>
+                    <td>6,351€</td>
+                    <td>-</td>
+                    <td>Base 100</td>
+                    <td><span class="badge badge-info">Référence</span></td>
+                </tr>
+                <tr>
+                    <td>2020</td>
+                    <td>4,707€</td>
+                    <td><span style="color: #dc3545;">-26%</span></td>
+                    <td>↗️ +15%</td>
+                    <td><span class="badge badge-warning">Correction</span></td>
+                </tr>
+                <tr>
+                    <td>2021</td>
+                    <td>5,240€</td>
+                    <td><span style="color: #28a745;">+11%</span></td>
+                    <td>↗️ +20%</td>
+                    <td><span class="badge badge-success">Stabilisation</span></td>
+                </tr>
+                <tr>
+                    <td>2022</td>
+                    <td>4,910€</td>
+                    <td><span style="color: #dc3545;">-6%</span></td>
+                    <td>→ Stable</td>
+                    <td><span class="badge badge-warning">Récession</span></td>
+                </tr>
+                <tr>
+                    <td>2023</td>
+                    <td>5,965€</td>
+                    <td><span style="color: #28a745;">+21%</span></td>
+                    <td>↗️ +10%</td>
+                    <td><span class="badge badge-success">Reprise</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>🎯 Top 5 Opportunités Identifiées</h2>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Département</th>
+                    <th>Prix</th>
+                    <th>Surface</th>
+                    <th>Rendement</th>
+                    <th>Profil Cible</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Grand appartement</td>
+                    <td>91</td>
+                    <td>102,330€</td>
+                    <td>62m²</td>
+                    <td><span class="badge badge-success">12.0%</span></td>
+                    <td>Débutant</td>
+                </tr>
+                <tr>
+                    <td>Grand appartement</td>
+                    <td>91</td>
+                    <td>119,000€</td>
+                    <td>72m²</td>
+                    <td><span class="badge badge-success">12.0%</span></td>
+                    <td>Débutant</td>
+                </tr>
+                <tr>
+                    <td>Grande maison</td>
+                    <td>91</td>
+                    <td>285,000€</td>
+                    <td>172m²</td>
+                    <td><span class="badge badge-success">11.9%</span></td>
+                    <td>Expérimenté</td>
+                </tr>
+                <tr>
+                    <td>Grande maison</td>
+                    <td>91</td>
+                    <td>240,000€</td>
+                    <td>145m²</td>
+                    <td><span class="badge badge-success">12.0%</span></td>
+                    <td>Expérimenté</td>
+                </tr>
+                <tr>
+                    <td>Maison familiale</td>
+                    <td>91</td>
+                    <td>195,000€</td>
+                    <td>98m²</td>
+                    <td><span class="badge badge-success">11.5%</span></td>
+                    <td>Intermédiaire</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>⚠️ Risques et Points d'Attention</h2>
+        
+        <div class="alert">
+            <h4>🚨 Risques Principaux</h4>
+            <ul>
+                <li><strong>Vacance locative:</strong> Prévoir 1-2 mois/an de vacance</li>
+                <li><strong>Travaux:</strong> Budget 0.5-1% valeur bien/an</li>
+                <li><strong>Fiscalité:</strong> Évolutions possibles du cadre légal</li>
+                <li><strong>Marché local:</strong> Dépendance économie régionale</li>
+            </ul>
+        </div>
+        
+        <div class="alert alert-danger">
+            <h4>🎯 Seuils d'Alerte</h4>
+            <ul>
+                <li>Rendement < 3.5% : Investissement non rentable</li>
+                <li>Prix > 150% médiane locale : Risque de surévaluation</li>
+                <li>Volume < 10 transactions/an : Marché illiquide</li>
+                <li>Écart-type > 30% : Volatilité excessive</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📋 Plan d'Action Recommandé</h2>
+        
+        <div class="recommendations">
+            <h3>📅 Phases d'Implémentation</h3>
+            
+            <div class="recommendation-item">
+                <h4>Phase 1 - Préparation (2-4 semaines)</h4>
+                <ul>
+                    <li>Définir budget d'investissement réel</li>
+                    <li>Choisir profil investisseur</li>
+                    <li>Formation bases investissement locatif</li>
+                </ul>
+            </div>
+            
+            <div class="recommendation-item">
+                <h4>Phase 2 - Recherche (4-8 semaines)</h4>
+                <ul>
+                    <li>Cibler 2-3 zones selon nos recommandations</li>
+                    <li>Analyser marché locatif local</li>
+                    <li>Visiter 10-15 biens pour calibrage</li>
+                </ul>
+            </div>
+            
+            <div class="recommendation-item">
+                <h4>Phase 3 - Acquisition (4-12 semaines)</h4>
+                <ul>
+                    <li>Négocier prix (objectif -5 à -10%)</li>
+                    <li>Diagnostics obligatoires</li>
+                    <li>Finaliser financement et achat</li>
+                </ul>
+            </div>
+            
+            <div class="recommendation-item">
+                <h4>Phase 4 - Mise en location (2-6 semaines)</h4>
+                <ul>
+                    <li>Travaux nécessaires</li>
+                    <li>Fixation loyer marché local</li>
+                    <li>Sélection locataire</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📁 Ressources et Fichiers Générés</h2>
+        
+        <div class="summary-cards">
+            <div class="card">
+                <h3>📊 Données</h3>
+                <ul style="padding-left: 20px;">
+                    <li>dvf_cleaned_2019_2023.csv</li>
+                    <li>transactions_avec_rendements.csv</li>
+                    <li>recommandations_par_profil.csv</li>
+                    <li>zones_attractives_classifiees.csv</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>📈 Visualisations</h3>
+                <ul style="padding-left: 20px;">
+                    <li>vue_ensemble_marche.png</li>
+                    <li>analyse_geographique.png</li>
+                    <li>analyse_investissement.png</li>
+                    <li>carte_interactive_transactions.html</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>💻 Code</h3>
+                <ul style="padding-left: 20px;">
+                    <li>01_preprocessing.ipynb</li>
+                    <li>02_analysis.ipynb</li>
+                    <li>03_visualizations.ipynb</li>
+                    <li>04_recommendations.ipynb</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>📑 Rapports</h3>
+                <ul style="padding-left: 20px;">
+                    <li>resume_executif_complet.md</li>
+                    <li>checklist_investisseur.md</li>
+                    <li>rapport_analyse_complete_dvf.md</li>
+                    <li>Ce rapport HTML</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <hr>
+        <p><strong>Rapport d'Analyse DVF 2019-2023</strong></p>
+        <p>Généré automatiquement le 16 septembre 2025</p>
+        <p>Basé sur l'analyse de 26,914 transactions immobilières</p>
+        <p><em>Ce rapport constitue une aide à la décision. Consultez un professionnel avant tout investissement.</em></p>
+    </div>
+</body>
+</html>

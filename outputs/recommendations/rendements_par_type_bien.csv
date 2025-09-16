@@ -1,0 +1,7 @@
+type_bien_estime,rendement_brut_mean,rendement_brut_median,rendement_brut_std,rendement_brut_count,prix_m2_mean,surface_reelle_bati_mean,valeur_fonciere_mean
+Appartement moyen,5.15,5.0,2.08,6147,5267.6,49.21,257455.17
+Grand appartement,6.04,5.72,2.24,7054,4272.14,68.26,290641.86
+Grande maison,6.22,6.2,2.37,3014,4272.3,232.62,1017545.93
+Maison familiale,5.99,5.88,2.09,6214,4199.17,94.51,397138.47
+Petit appartement,4.52,4.39,1.97,3371,6241.78,32.42,202107.02
+Studio/T1,4.15,3.98,1.84,1114,6719.01,20.12,133799.08

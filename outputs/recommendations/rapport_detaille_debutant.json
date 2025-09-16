@@ -1,0 +1,123 @@
+{
+  "profil": {
+    "nom": "Investisseur Débutant",
+    "budget_min": 80000,
+    "budget_max": 250000,
+    "objectif_rendement": 4.5,
+    "tolerance_risque": "faible",
+    "preferences": {
+      "stabilite": 0.35,
+      "accessibilite": 0.3,
+      "rentabilite": 0.25,
+      "liquidite": 0.1
+    },
+    "contraintes": {
+      "score_min": 5.0,
+      "surface_max": 120,
+      "eviter_premium": true
+    }
+  },
+  "statistiques": {
+    "rendement_moyen": 8.051093788008895,
+    "prix_moyen": 167203.60054224462,
+    "score_moyen": 6.7074437038371455
+  },
+  "recommandations": [
+    {
+      "rang": 1,
+      "departement": "91",
+      "type_bien": "Grand appartement",
+      "score_profil": 7.765,
+      "score_final": 6.0,
+      "rendement_brut": 11.996481970096747,
+      "valeur_fonciere": 102330.0,
+      "surface": 62.0,
+      "prix_m2": 1650.483870967742,
+      "justifications": [
+        "✅ Rendement 12.0% supérieur à l'objectif (4.5%)",
+        "✅ Score d'opportunité satisfaisant (≥5/10)",
+        "✅ Prix bien positionné dans votre budget",
+        "✅ Surface modérée, idéale pour débuter",
+        "✅ Département avec historique de transactions stable"
+      ]
+    },
+    {
+      "rang": 2,
+      "departement": "91",
+      "type_bien": "Grand appartement",
+      "score_profil": 7.765,
+      "score_final": 6.0,
+      "rendement_brut": 11.97983193277311,
+      "valeur_fonciere": 119000.0,
+      "surface": 72.0,
+      "prix_m2": 1652.7777777777778,
+      "justifications": [
+        "✅ Rendement 12.0% supérieur à l'objectif (4.5%)",
+        "✅ Score d'opportunité satisfaisant (≥5/10)",
+        "✅ Prix bien positionné dans votre budget",
+        "✅ Surface modérée, idéale pour débuter",
+        "✅ Département avec historique de transactions stable"
+      ]
+    },
+    {
+      "rang": 3,
+      "departement": "91",
+      "type_bien": "Grand appartement",
+      "score_profil": 7.739999999999999,
+      "score_final": 6.0,
+      "rendement_brut": 11.88,
+      "valeur_fonciere": 110000.0,
+      "surface": 66.0,
+      "prix_m2": 1666.6666666666667,
+      "justifications": [
+        "✅ Rendement 11.9% supérieur à l'objectif (4.5%)",
+        "✅ Score d'opportunité satisfaisant (≥5/10)",
+        "✅ Prix bien positionné dans votre budget",
+        "✅ Surface modérée, idéale pour débuter",
+        "✅ Département avec historique de transactions stable"
+      ]
+    },
+    {
+      "rang": 4,
+      "departement": "91",
+      "type_bien": "Maison familiale",
+      "score_profil": 7.739999999999999,
+      "score_final": 6.0,
+      "rendement_brut": 11.88,
+      "valeur_fonciere": 145000.0,
+      "surface": 87.0,
+      "prix_m2": 1666.6666666666667,
+      "justifications": [
+        "✅ Rendement 11.9% supérieur à l'objectif (4.5%)",
+        "✅ Score d'opportunité satisfaisant (≥5/10)",
+        "✅ Prix bien positionné dans votre budget",
+        "✅ Département avec historique de transactions stable"
+      ]
+    },
+    {
+      "rang": 5,
+      "departement": "91",
+      "type_bien": "Maison familiale",
+      "score_profil": 7.739999999999999,
+      "score_final": 6.0,
+      "rendement_brut": 11.909774436090226,
+      "valeur_fonciere": 133000.0,
+      "surface": 80.0,
+      "prix_m2": 1662.5,
+      "justifications": [
+        "✅ Rendement 11.9% supérieur à l'objectif (4.5%)",
+        "✅ Score d'opportunité satisfaisant (≥5/10)",
+        "✅ Prix bien positionné dans votre budget",
+        "✅ Surface modérée, idéale pour débuter",
+        "✅ Département avec historique de transactions stable"
+      ]
+    }
+  ],
+  "conseils": [
+    "🎯 Privilégiez la stabilité et l'apprentissage sur votre premier investissement",
+    "📚 Formez-vous sur la gestion locative avant d'investir",
+    "🔍 Visitez plusieurs biens avant de vous décider",
+    "💰 Gardez une réserve financière pour les travaux et vacances locatives",
+    "🤝 Entourez-vous de professionnels (notaire, agent immobilier, comptable)"
+  ]
+}
