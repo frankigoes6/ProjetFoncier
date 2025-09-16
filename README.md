@@ -34,25 +34,21 @@
 ```
 ProjetFoncier/
 ├── 📁 assets/
-│   └── dataset.csv              # Données DVF (2019-2023)
+│   └── dataset.csv                    # Données DVF (2019-2023)
 ├── 📁 notebooks/
-│   ├── 01_preprocessing.ipynb   # ✅ Nettoyage des données
-│   ├── 02_analysis.ipynb        # ✅ Analyses statistiques  
-│   ├── 03_visualizations.ipynb  # ✅ Tableaux de bord interactifs
-│   └── 04_recommendations.ipynb # ✅ Recommandations d'investissement
+│   ├── 01_preprocessing.ipynb         # ✅ Nettoyage et préparation des données
+│   └── 02_application_investisseur.ipynb # ✅ Analyse unifiée + visualisations + recommandations
 ├── 📁 src/
-│   └── dvf_utils.py            # ✅ Modules utilitaires
+│   └── dvf_utils.py                  # ✅ Modules utilitaires
 ├── 📁 outputs/
-│   ├── 📁 visualizations/       # PNG et tableaux CSV
-│   ├── 📁 recommendations/      # Rapports personnalisés
-│   ├── 📁 reports/             # Rapports d'analyse complète
-│   ├── dvf_cleaned_2019_2023.csv
+│   ├── 📁 visualizations/             # PNG et tableaux CSV
+│   ├── 📁 recommendations/            # Rapports personnalisés
+│   ├── 📁 reports/                   # Rapports d'analyse complète
+│   ├── dvf_cleaned_2019_2023.csv     # Dataset nettoyé
 │   ├── carte_interactive_transactions.html
 │   └── heatmap_temporelle.html
-├── requirements.txt            # Dépendances Python
-├── validate_notebooks.py       # Script de validation
-├── rapid_validation.py        # Test rapide d'intégrité
-└── README.md                   # Cette documentation
+├── requirements.txt                   # Dépendances Python
+└── README.md                         # Cette documentation
 ```
 
 ## 🚀 Installation et Configuration
@@ -109,82 +105,53 @@ python validate_notebooks.py
    ```
 
 2. **Navigation recommandée :**
-   - 🚀 **Commencer par :** `03_visualizations.ipynb` (interface interactive)
-   - 📊 **Puis explorer :** `04_recommendations.ipynb` (recommandations finales)
-   - 🔍 **Approfondir :** `02_analysis.ipynb` (analyses détaillées)
-   - ⚙️ **Comprendre :** `01_preprocessing.ipynb` (nettoyage des données)
+   - 🚀 **Commencer par :** `02_application_investisseur.ipynb` (interface interactive unifiée)
+   - 🔍 **Approfondir :** `01_preprocessing.ipynb` (nettoyage des données)
 
-### 📋 **Workflow Détaillé**
+### 📋 **Workflow Simplifié**
 
-#### **Option A : Exploration Interactive (Recommandé)**
+#### **Analyse Complète (Recommandé)**
 ```
-03_visualizations.ipynb → 04_recommendations.ipynb
+01_preprocessing.ipynb → 02_application_investisseur.ipynb
 ```
 - ✅ Interface utilisateur intuitive
-- ✅ Résultats immédiats
-- ✅ Recommandations personnalisées
-
-#### **Option B : Analyse Complète**
-```
-01_preprocessing.ipynb → 02_analysis.ipynb → 03_visualizations.ipynb → 04_recommendations.ipynb
-```
-- ✅ Compréhension approfondie
-- ✅ Maîtrise de la méthodologie
-- ✅ Personnalisation avancée
+- ✅ Analyse, visualisations et recommandations en un seul notebook
+- ✅ Dashboard interactif avec widgets ipywidgets
 
 ### 🎛️ **Fonctionnalités par Notebook**
 
 #### **01_preprocessing.ipynb** ⚙️
 - ✅ Chargement et validation des données DVF
-- ✅ Nettoyage des valeurs aberrantes (98.2% de données conservées)
+- ✅ Nettoyage des valeurs aberrantes (données conservées)
 - ✅ Création de variables dérivées (prix/m², surface habitable, etc.)
 - ✅ Export des données nettoyées : `outputs/dvf_cleaned_2019_2023.csv`
 
-#### **02_analysis.ipynb** 📊
-- ✅ Analyses géographiques (départements 91 vs 94)
-- ✅ Évolution temporelle des prix (2019-2023)
-- ✅ Comparaisons par type de bien (maisons, appartements)
-- ✅ Identification des opportunités d'investissement
-
-#### **03_visualizations.ipynb** 🎨
-- ✅ **Tableau de bord principal** avec filtres interactifs
-- ✅ **Simulateur d'investissement** pour calculs de rentabilité
-- ✅ **Comparateur de départements** avec recommandations
-- ✅ **Recherche avancée** d'opportunités d'investissement
-- ✅ **Cartographie interactive** : `outputs/carte_interactive_transactions.html`
-
-#### **04_recommendations.ipynb** 🎯
-- ✅ Intégration de données de loyer réelles
-- ✅ Calculs de rendement avec scoring multi-critères
-- ✅ Recommandations personnalisées par profil (Débutant/Expérimenté/Aguerri)
-- ✅ Rapport exécutif complet : `outputs/recommendations/resume_executif_complet.html`
+#### **02_application_investisseur.ipynb** 📊🎨🎯
+- ✅ **Chargement des données nettoyées** du preprocessing
+- ✅ **Analyses statistiques** géographiques et temporelles
+- ✅ **Tableau de bord principal** avec filtres interactifs (ipywidgets)
+- ✅ **Visualisations matplotlib** qui s'actualisent avec les filtres
+- ✅ **Recommandations d'investissement** basées sur les données DVF
+- ✅ **Conclusions pour investisseurs non-techniques**
 
 ## 💡 Exemples d'Usage
 
-### 🔍 **Trouver les Meilleures Opportunités**
+### 🔍 **Explorer les Données avec le Dashboard Interactif**
 ```python
-# Dans 03_visualizations.ipynb
-# 1. Sélectionner vos critères dans les widgets
-# 2. Utiliser la "Recherche Avancée"
-# 3. Définir : prix max, surface min, rendement min
-# 4. Analyser les résultats par département
+# Dans 02_application_investisseur.ipynb
+# 1. Utiliser les widgets pour filtrer par département, année, prix
+# 2. Observer les graphiques matplotlib s'actualiser automatiquement
+# 3. Analyser les statistiques dynamiques par zone
+# 4. Identifier les tendances et opportunités
 ```
 
-### 💰 **Simuler un Investissement**
+### 💰 **Analyser les Investissements**
 ```python
-# Dans 03_visualizations.ipynb - Simulateur
-# 1. Choisir le département cible
-# 2. Définir surface et budget
-# 3. Estimer le loyer au m²
-# 4. Analyser la rentabilité calculée
-```
-
-### 📊 **Comparer des Zones**
-```python
-# Dans 03_visualizations.ipynb - Comparateur
-# 1. Sélectionner 2-3 départements
-# 2. Comparer prix, volume, stabilité
-# 3. Obtenir une recommandation automatique
+# Dans 02_application_investisseur.ipynb - Section Recommandations
+# 1. Consulter les analyses par type de bien
+# 2. Comprendre les métriques de rentabilité
+# 3. Lire les conseils pour investisseurs non-techniques
+# 4. Appliquer les recommandations basées sur DVF
 ```
 
 ## � Données et Sources
@@ -264,15 +231,11 @@ pandas>=2.0.0           # DataFrames et analyses
 numpy>=1.24.0           # Calculs numériques
 
 # Visualisations
-matplotlib>=3.7.0       # Graphiques statiques
-seaborn>=0.12.0         # Visualisations statistiques
-plotly>=5.15.0          # Graphiques interactifs
-folium>=0.14.0          # Cartes géographiques
+matplotlib>=3.7.0       # Graphiques statiques (principal)
+ipywidgets>=8.0.0       # Widgets interactifs
 
 # Interface interactive
 jupyter>=1.0.0          # Environnement notebook
-ipywidgets>=8.0.0       # Widgets interactifs
-nbconvert>=7.0.0        # Conversion notebooks
 
 # Utilitaires
 pathlib                 # Gestion des chemins
@@ -280,13 +243,13 @@ json                   # Traitement JSON
 datetime               # Manipulation dates
 ```
 
-### **Installation Complète**
+### **Installation Simplifiée**
 ```bash
-# Toutes les dépendances (environnement complet)
-pip install -r requirements.txt
-
-# Installation minimale (exploration uniquement)
+# Dépendances essentielles (environnement simplifié)
 pip install pandas numpy matplotlib jupyter ipywidgets
+
+# Installation complète avec requirements.txt
+pip install -r requirements.txt
 ```
 
 ## 🔧 Maintenance et Validation
@@ -365,9 +328,9 @@ jupyter nbextension enable --py widgetsnbextension
 - ✅ **Validation** : Tests automatisés et validation d'intégrité
 
 ### **Prochaines Étapes Suggérées**
-1. 📊 Exploration avec le tableau de bord interactif (`03_visualizations.ipynb`)
-2. 🎯 Lecture des recommandations personnalisées (`04_recommendations.ipynb`)
-3. 📈 Analyse des opportunités identifiées dans les rapports
-4. 🏠 Application des stratégies d'investissement recommandées
+1. 📊 Exploration avec le dashboard interactif unifié (`02_application_investisseur.ipynb`)
+2. 🎯 Lecture des recommandations d'investissement dans le même notebook
+3. � Compréhension du processus de nettoyage (`01_preprocessing.ipynb`)
+4. 🏠 Application des stratégies d'investissement identifiées
 
-**🚀 Prêt à identifier vos prochaines opportunités d'investissement immobilier !**
+**🚀 Workflow simplifié : 2 notebooks pour une analyse complète !**

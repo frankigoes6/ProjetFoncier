@@ -59,10 +59,14 @@ class DVFDataProcessor:
 
         # Calcul du prix au m²
         if all(col in df_clean.columns for col in critical_cols):
-            df_clean["prix_m2"] = df_clean["valeur_fonciere"] / df_clean["surface_reelle_bati"]
+            df_clean["prix_m2"] = (
+                df_clean["valeur_fonciere"] / df_clean["surface_reelle_bati"]
+            )
 
             # Suppression des outliers extrêmes (prix au m² > 50000€ ou < 100€)
-            df_clean = df_clean[(df_clean["prix_m2"] >= 100) & (df_clean["prix_m2"] <= 50000)]
+            df_clean = df_clean[
+                (df_clean["prix_m2"] >= 100) & (df_clean["prix_m2"] <= 50000)
+            ]
 
         self.df_clean = df_clean
         return df_clean
@@ -82,7 +86,10 @@ class DVFDataProcessor:
             "cleaned_rows": self.df_clean.shape[0],
             "removed_rows": self.original_shape[0] - self.df_clean.shape[0],
             "removal_percentage": round(
-                (self.original_shape[0] - self.df_clean.shape[0]) / self.original_shape[0] * 100, 2
+                (self.original_shape[0] - self.df_clean.shape[0])
+                / self.original_shape[0]
+                * 100,
+                2,
             ),
         }
 
@@ -135,7 +142,10 @@ class GeographicAnalyzer:
 
     @staticmethod
     def get_top_communes(
-        df: pd.DataFrame, metric: str = "prix_m2", n_top: int = 10, ascending: bool = False
+        df: pd.DataFrame,
+        metric: str = "prix_m2",
+        n_top: int = 10,
+        ascending: bool = False,
     ) -> pd.DataFrame:
         """
         Obtient le top des communes selon une métrique
@@ -166,7 +176,9 @@ class GeographicAnalyzer:
         )
 
     @staticmethod
-    def get_market_summary(df: pd.DataFrame, group_by: str = "nom_commune") -> pd.DataFrame:
+    def get_market_summary(
+        df: pd.DataFrame, group_by: str = "nom_commune"
+    ) -> pd.DataFrame:
         """
         Génère un résumé du marché par zone géographique
 
@@ -268,7 +280,7 @@ class InvestmentAnalyzer:
         """Calcule le score et le rendement basé sur le loyer estimé"""
         if loyer_m2_estime:
             rendement_brut = (loyer_m2_estime * 12) / prix_m2 * 100
-            
+
             if rendement_brut >= 8:
                 score = 5
             elif rendement_brut >= 6:
@@ -279,7 +291,7 @@ class InvestmentAnalyzer:
                 score = 2
             else:
                 score = 1
-            
+
             return score, rendement_brut
         else:
             return 3, None  # Score neutre si pas de donnée
@@ -312,10 +324,12 @@ class InvestmentAnalyzer:
         scores["score_prix"] = cls._calculate_price_score(prix_m2, prix_m2_moyen_zone)
         scores["score_liquidite"] = cls._calculate_liquidity_score(nb_transactions)
         scores["score_taille"] = cls._calculate_size_score(surface)
-        
-        score_rendement, rendement_brut = cls._calculate_yield_score(prix_m2, loyer_m2_estime)
+
+        score_rendement, rendement_brut = cls._calculate_yield_score(
+            prix_m2, loyer_m2_estime
+        )
         scores["score_rendement"] = score_rendement
-        
+
         if rendement_brut is not None:
             scores["rendement_brut_estime"] = rendement_brut
 
@@ -369,9 +383,13 @@ class InvestmentAnalyzer:
         opportunities = df.copy()
 
         if min_surface:
-            opportunities = opportunities[opportunities["surface_reelle_bati"] >= min_surface]
+            opportunities = opportunities[
+                opportunities["surface_reelle_bati"] >= min_surface
+            ]
         if max_surface:
-            opportunities = opportunities[opportunities["surface_reelle_bati"] <= max_surface]
+            opportunities = opportunities[
+                opportunities["surface_reelle_bati"] <= max_surface
+            ]
         if max_prix_m2:
             opportunities = opportunities[opportunities["prix_m2"] <= max_prix_m2]
 
@@ -410,7 +428,9 @@ class InvestmentAnalyzer:
 
         # Ajouter les scores au DataFrame
         scores_df = pd.DataFrame(scores_list)
-        opportunities = pd.concat([opportunities.reset_index(drop=True), scores_df], axis=1)
+        opportunities = pd.concat(
+            [opportunities.reset_index(drop=True), scores_df], axis=1
+        )
 
         # Trier par score global décroissant
         opportunities = opportunities.sort_values("score_global", ascending=False)
@@ -449,7 +469,9 @@ def load_dvf_data(file_path: str) -> pd.DataFrame:
         for encoding in encodings:
             try:
                 # DVF utilise généralement le point-virgule comme séparateur
-                df = pd.read_csv(file_path, low_memory=False, encoding=encoding, sep=";")
+                df = pd.read_csv(
+                    file_path, low_memory=False, encoding=encoding, sep=";"
+                )
                 print(
                     f"✅ Données chargées avec encodage {encoding} : "
                     f"{df.shape[0]} lignes, {df.shape[1]} colonnes"
@@ -468,7 +490,9 @@ def load_dvf_data(file_path: str) -> pd.DataFrame:
                 continue
 
         # Si aucun encodage ne fonctionne, essayer avec errors='ignore'
-        df = pd.read_csv(file_path, low_memory=False, encoding="utf-8", errors="ignore", sep=";")
+        df = pd.read_csv(
+            file_path, low_memory=False, encoding="utf-8", errors="ignore", sep=";"
+        )
         print(
             f"✅ Données chargées avec encodage UTF-8 (errors='ignore') : {df.shape[0]} lignes, {df.shape[1]} colonnes"
         )
@@ -495,7 +519,9 @@ class StatisticalAnalyzer:
     """
 
     @staticmethod
-    def comprehensive_descriptive_stats(df: pd.DataFrame, variables: List[str] = None) -> Dict:
+    def comprehensive_descriptive_stats(
+        df: pd.DataFrame, variables: List[str] = None
+    ) -> Dict:
         """
         T015 - Statistiques descriptives complètes pour les variables principales
 
@@ -529,7 +555,11 @@ class StatisticalAnalyzer:
                         "q3": float(data.quantile(0.75)),
                         "skewness": float(stats.skew(data)),
                         "kurtosis": float(stats.kurtosis(data)),
-                        "cv": float(data.std() / data.mean() * 100) if data.mean() != 0 else np.nan,
+                        "cv": (
+                            float(data.std() / data.mean() * 100)
+                            if data.mean() != 0
+                            else np.nan
+                        ),
                     }
 
         return stats_dict
@@ -564,13 +594,17 @@ class StatisticalAnalyzer:
                 .round(2)
             )
 
-            dept_analysis.columns = ["_".join(col).strip() for col in dept_analysis.columns]
+            dept_analysis.columns = [
+                "_".join(col).strip() for col in dept_analysis.columns
+            ]
             dept_analysis = dept_analysis.reset_index()
             dept_analysis = dept_analysis[
                 dept_analysis["prix_m2_count"] >= 10
             ]  # Min 10 transactions
 
-            results["departements"] = dept_analysis.sort_values("prix_m2_mean", ascending=False)
+            results["departements"] = dept_analysis.sort_values(
+                "prix_m2_mean", ascending=False
+            )
 
         if by_commune and "nom_commune" in df.columns:
             commune_analysis = (
@@ -585,13 +619,17 @@ class StatisticalAnalyzer:
                 .round(2)
             )
 
-            commune_analysis.columns = ["_".join(col).strip() for col in commune_analysis.columns]
+            commune_analysis.columns = [
+                "_".join(col).strip() for col in commune_analysis.columns
+            ]
             commune_analysis = commune_analysis.reset_index()
             commune_analysis = commune_analysis[
                 commune_analysis["prix_m2_count"] >= 5
             ]  # Min 5 transactions
 
-            results["communes"] = commune_analysis.sort_values("prix_m2_mean", ascending=False)
+            results["communes"] = commune_analysis.sort_values(
+                "prix_m2_mean", ascending=False
+            )
 
         return results
 
@@ -643,7 +681,9 @@ class StatisticalAnalyzer:
             dept_type = dept_type.reset_index()
             dept_type = dept_type[dept_type["prix_m2_count"] >= 5]
 
-            type_dept_analysis[type_bien] = dept_type.sort_values("prix_m2_mean", ascending=False)
+            type_dept_analysis[type_bien] = dept_type.sort_values(
+                "prix_m2_mean", ascending=False
+            )
 
         results["by_department"] = type_dept_analysis
 
@@ -678,12 +718,18 @@ class StatisticalAnalyzer:
             .round(2)
         )
 
-        yearly_analysis.columns = ["_".join(col).strip() for col in yearly_analysis.columns]
+        yearly_analysis.columns = [
+            "_".join(col).strip() for col in yearly_analysis.columns
+        ]
         yearly_analysis = yearly_analysis.reset_index()
 
         # Calcul des taux de croissance
-        yearly_analysis["croissance_prix"] = yearly_analysis["prix_m2_mean"].pct_change() * 100
-        yearly_analysis["croissance_volume"] = yearly_analysis["prix_m2_count"].pct_change() * 100
+        yearly_analysis["croissance_prix"] = (
+            yearly_analysis["prix_m2_mean"].pct_change() * 100
+        )
+        yearly_analysis["croissance_volume"] = (
+            yearly_analysis["prix_m2_count"].pct_change() * 100
+        )
 
         results["yearly"] = yearly_analysis
 
@@ -694,7 +740,9 @@ class StatisticalAnalyzer:
             .round(2)
         )
 
-        monthly_analysis.columns = ["_".join(col).strip() for col in monthly_analysis.columns]
+        monthly_analysis.columns = [
+            "_".join(col).strip() for col in monthly_analysis.columns
+        ]
         monthly_analysis = monthly_analysis.reset_index()
 
         results["monthly"] = monthly_analysis
@@ -706,7 +754,9 @@ class StatisticalAnalyzer:
             .round(2)
         )
 
-        seasonal_analysis.columns = ["_".join(col).strip() for col in seasonal_analysis.columns]
+        seasonal_analysis.columns = [
+            "_".join(col).strip() for col in seasonal_analysis.columns
+        ]
         seasonal_analysis = seasonal_analysis.reset_index()
 
         # Calcul des variations par rapport à la moyenne annuelle
@@ -811,7 +861,9 @@ class StatisticalAnalyzer:
             }
 
         # Anomalies géographiques (communes avec écarts importants vs département)
-        if all(col in df.columns for col in ["nom_commune", "code_departement", "prix_m2"]):
+        if all(
+            col in df.columns for col in ["nom_commune", "code_departement", "prix_m2"]
+        ):
             dept_avg_prices = df.groupby("code_departement")["prix_m2"].mean()
 
             commune_vs_dept = (
@@ -841,7 +893,7 @@ class StatisticalAnalyzer:
                     "communes": surprimes.nlargest(10, "ecart_vs_dept")[
                         [
                             "nom_commune",
-                            "code_departement", 
+                            "code_departement",
                             "ecart_vs_dept",
                             "prix_m2_commune",
                         ]
@@ -850,7 +902,12 @@ class StatisticalAnalyzer:
                 "decotes_importantes": {
                     "count": len(decotes),
                     "communes": decotes.nsmallest(10, "ecart_vs_dept")[
-                        ["nom_commune", "code_departement", "ecart_vs_dept", "prix_m2_commune"]
+                        [
+                            "nom_commune",
+                            "code_departement",
+                            "ecart_vs_dept",
+                            "prix_m2_commune",
+                        ]
                     ].to_dict("records"),
                 },
             }
@@ -891,7 +948,9 @@ class StatisticalAnalyzer:
             .round(2)
         )
 
-        segment_analysis.columns = ["_".join(col).strip() for col in segment_analysis.columns]
+        segment_analysis.columns = [
+            "_".join(col).strip() for col in segment_analysis.columns
+        ]
         segment_analysis = segment_analysis.reset_index()
 
         results["surface_segments"] = segment_analysis
@@ -917,7 +976,9 @@ class StatisticalAnalyzer:
                     "prix_m2_moyen": float(df_type["prix_m2"].mean()),
                     "surface_moyenne": float(df_type["surface_reelle_bati"].mean()),
                     "taux_mensuel_estime": monthly_rate,
-                    "loyer_mensuel_estime": float(df_type["valeur_fonciere"].mean() * monthly_rate),
+                    "loyer_mensuel_estime": float(
+                        df_type["valeur_fonciere"].mean() * monthly_rate
+                    ),
                     "rendement_brut_estime": float(monthly_rate * 12 * 100),
                     "nb_transactions": len(df_type),
                 }
@@ -927,6 +988,522 @@ class StatisticalAnalyzer:
             results["yield_analysis"] = yield_analysis
 
         return results
+
+
+class DashboardAnalytics:
+    """
+    Classe pour les analyses du tableau de bord interactif (T020-T023)
+    """
+
+    @staticmethod
+    def filter_dashboard_data(
+        df: pd.DataFrame,
+        dept: str = "Tous",
+        years: tuple = None,
+        prix_range: tuple = None,
+        surface_range: tuple = None,
+        types: list = None,
+        prix_m2_range: tuple = None,
+    ) -> pd.DataFrame:
+        """
+        Filtre les données selon les critères du tableau de bord
+
+        Args:
+            df: DataFrame source
+            dept: Code département ou 'Tous'
+            years: Tuple (année_min, année_max)
+            prix_range: Tuple (prix_min, prix_max)
+            surface_range: Tuple (surface_min, surface_max)
+            types: Liste des types de biens
+            prix_m2_range: Tuple (prix_m2_min, prix_m2_max)
+
+        Returns:
+            DataFrame filtré
+        """
+        filtered_data = df.copy()
+
+        # Filtre par département
+        if dept != "Tous":
+            filtered_data = filtered_data[filtered_data["code_departement"] == dept]
+
+        # Filtre par années
+        if years is not None:
+            filtered_data = filtered_data[
+                (filtered_data["annee"] >= years[0])
+                & (filtered_data["annee"] <= years[1])
+            ]
+
+        # Filtre par prix
+        if prix_range is not None:
+            filtered_data = filtered_data[
+                (filtered_data["valeur_fonciere"] >= prix_range[0])
+                & (filtered_data["valeur_fonciere"] <= prix_range[1])
+            ]
+
+        # Filtre par surface
+        if surface_range is not None:
+            filtered_data = filtered_data[
+                (filtered_data["surface_reelle_bati"] >= surface_range[0])
+                & (filtered_data["surface_reelle_bati"] <= surface_range[1])
+            ]
+
+        # Filtre par type
+        if types is not None:
+            filtered_data = filtered_data[filtered_data["type_local"].isin(types)]
+
+        # Filtre par prix/m²
+        if prix_m2_range is not None:
+            filtered_data = filtered_data[
+                (filtered_data["prix_m2"] >= prix_m2_range[0])
+                & (filtered_data["prix_m2"] <= prix_m2_range[1])
+            ]
+
+        return filtered_data
+
+    @staticmethod
+    def calculate_dashboard_stats(df: pd.DataFrame) -> Dict:
+        """
+        Calcule les statistiques pour le tableau de bord
+
+        Args:
+            df: DataFrame filtré
+
+        Returns:
+            Dictionnaire avec les statistiques
+        """
+        if len(df) == 0:
+            return {
+                "nb_transactions": 0,
+                "prix_median": 0,
+                "prix_m2_median": 0,
+                "surface_mediane": 0,
+                "periode": "Aucune donnée",
+            }
+
+        stats = {
+            "nb_transactions": len(df),
+            "prix_median": float(df["valeur_fonciere"].median()),
+            "prix_m2_median": float(df["prix_m2"].median()),
+            "surface_mediane": float(df["surface_reelle_bati"].median()),
+            "prix_moyen": float(df["valeur_fonciere"].mean()),
+            "prix_m2_moyen": float(df["prix_m2"].mean()),
+            "surface_moyenne": float(df["surface_reelle_bati"].mean()),
+            "periode": f"{df['annee'].min()} - {df['annee'].max()}",
+        }
+
+        return stats
+
+    @staticmethod
+    def get_top_communes_dashboard(df: pd.DataFrame, n: int = 10) -> pd.DataFrame:
+        """
+        Obtient les top communes pour le tableau de bord
+
+        Args:
+            df: DataFrame filtré
+            n: Nombre de communes à retourner
+
+        Returns:
+            DataFrame avec les top communes
+        """
+        if len(df) == 0:
+            return pd.DataFrame()
+
+        top_communes = (
+            df.groupby("nom_commune")
+            .agg({"valeur_fonciere": "count", "prix_m2": "median"})
+            .round(0)
+        )
+
+        top_communes.columns = ["nb_transactions", "prix_m2_median"]
+        top_communes = top_communes.sort_values(
+            "nb_transactions", ascending=False
+        ).head(n)
+
+        return top_communes.reset_index()
+
+    @staticmethod
+    def calculate_investment_score_simple(
+        prix_m2: float,
+        surface: float,
+        nb_transactions_commune: int,
+        prix_m2_median_commune: float,
+    ) -> Dict:
+        """
+        Calcule un score d'investissement simplifié pour le dashboard
+
+        Args:
+            prix_m2: Prix au m² du bien
+            surface: Surface du bien
+            nb_transactions_commune: Nombre de transactions dans la commune
+            prix_m2_median_commune: Prix médian/m² dans la commune
+
+        Returns:
+            Dictionnaire avec le score et les composants
+        """
+        scores = {}
+
+        # Score prix (comparaison avec médiane locale)
+        ratio_prix = (
+            prix_m2 / prix_m2_median_commune if prix_m2_median_commune > 0 else 1
+        )
+        if ratio_prix <= 0.8:
+            scores["score_prix"] = 10
+        elif ratio_prix <= 0.9:
+            scores["score_prix"] = 8
+        elif ratio_prix <= 1.0:
+            scores["score_prix"] = 6
+        elif ratio_prix <= 1.1:
+            scores["score_prix"] = 4
+        else:
+            scores["score_prix"] = 2
+
+        # Score liquidité (basé sur volume de transactions)
+        if nb_transactions_commune >= 50:
+            scores["score_liquidite"] = 10
+        elif nb_transactions_commune >= 20:
+            scores["score_liquidite"] = 8
+        elif nb_transactions_commune >= 10:
+            scores["score_liquidite"] = 6
+        elif nb_transactions_commune >= 5:
+            scores["score_liquidite"] = 4
+        else:
+            scores["score_liquidite"] = 2
+
+        # Score surface (taille optimale pour location)
+        if 50 <= surface <= 80:
+            scores["score_surface"] = 10
+        elif 40 <= surface <= 100:
+            scores["score_surface"] = 8
+        elif 30 <= surface <= 120:
+            scores["score_surface"] = 6
+        else:
+            scores["score_surface"] = 4
+
+        # Score global
+        scores["score_global"] = (
+            scores["score_prix"] * 0.4
+            + scores["score_liquidite"] * 0.3
+            + scores["score_surface"] * 0.3
+        )
+
+        # Classification
+        if scores["score_global"] >= 8:
+            scores["classification"] = "Excellent"
+        elif scores["score_global"] >= 6:
+            scores["classification"] = "Très bon"
+        elif scores["score_global"] >= 4:
+            scores["classification"] = "Bon"
+        else:
+            scores["classification"] = "Moyen"
+
+        return scores
+
+    @staticmethod
+    def generate_investment_insights(df: pd.DataFrame) -> Dict:
+        """
+        Génère des insights d'investissement basés sur les données filtrées
+
+        Args:
+            df: DataFrame filtré
+
+        Returns:
+            Dictionnaire avec les insights
+        """
+        if len(df) == 0:
+            return {"error": "Aucune donnée disponible"}
+
+        insights = {}
+
+        # Analyse des prix
+        prix_stats = {
+            "prix_min": float(df["valeur_fonciere"].min()),
+            "prix_max": float(df["valeur_fonciere"].max()),
+            "prix_median": float(df["valeur_fonciere"].median()),
+            "prix_m2_median": float(df["prix_m2"].median()),
+            "ecart_type_prix_m2": float(df["prix_m2"].std()),
+        }
+        insights["prix_stats"] = prix_stats
+
+        # Identification des opportunités (prix/m² < médiane - 1 écart-type)
+        seuil_opportunite = (
+            prix_stats["prix_m2_median"] - prix_stats["ecart_type_prix_m2"]
+        )
+        opportunites = df[df["prix_m2"] < seuil_opportunite]
+
+        insights["opportunites"] = {
+            "nb_opportunites": len(opportunites),
+            "pourcentage": float(len(opportunites) / len(df) * 100),
+            "seuil_prix_m2": float(seuil_opportunite),
+            "surface_moyenne_opportunites": (
+                float(opportunites["surface_reelle_bati"].median())
+                if len(opportunites) > 0
+                else 0
+            ),
+        }
+
+        # Analyse par type de bien
+        if "type_local" in df.columns:
+            type_analysis = (
+                df.groupby("type_local")
+                .agg(
+                    {
+                        "valeur_fonciere": ["count", "median"],
+                        "prix_m2": "median",
+                        "surface_reelle_bati": "median",
+                    }
+                )
+                .round(0)
+            )
+
+            type_analysis.columns = [
+                "nb_transactions",
+                "prix_median",
+                "prix_m2_median",
+                "surface_mediane",
+            ]
+            insights["analyse_types"] = type_analysis.to_dict("index")
+
+        # Tendances temporelles si plusieurs années
+        if df["annee"].nunique() > 1:
+            temporal_analysis = (
+                df.groupby("annee")
+                .agg({"prix_m2": "median", "valeur_fonciere": "count"})
+                .round(0)
+            )
+
+            temporal_analysis["variation_prix"] = (
+                temporal_analysis["prix_m2"].pct_change() * 100
+            )
+            insights["tendances_temporelles"] = temporal_analysis.to_dict("index")
+
+        return insights
+
+
+class RecommendationEngine:
+    """
+    Moteur de recommandations simplifié pour l'application (T022)
+    """
+
+    def __init__(self, df: pd.DataFrame):
+        """
+        Initialise le moteur avec les données DVF
+
+        Args:
+            df: DataFrame avec les données DVF nettoyées
+        """
+        self.df = df.copy()
+        self._prepare_commune_stats()
+
+    def _prepare_commune_stats(self):
+        """Prépare les statistiques par commune pour les calculs"""
+        self.commune_stats = (
+            self.df.groupby("nom_commune")
+            .agg(
+                {
+                    "prix_m2": ["median", "count"],
+                    "valeur_fonciere": "median",
+                    "surface_reelle_bati": "median",
+                }
+            )
+            .round(2)
+        )
+
+        self.commune_stats.columns = [
+            "prix_m2_median",
+            "nb_transactions",
+            "prix_median",
+            "surface_mediane",
+        ]
+        self.commune_stats = self.commune_stats.reset_index()
+
+    def recommend_by_profile(
+        self,
+        profile: str,
+        budget_max: float,
+        surface_range: tuple,
+        filtered_data: pd.DataFrame = None,
+    ) -> Dict:
+        """
+        Génère des recommandations selon le profil d'investisseur
+
+        Args:
+            profile: 'debutant', 'experimente', ou 'equilibre'
+            budget_max: Budget maximum
+            surface_range: Tuple (surface_min, surface_max)
+            filtered_data: Données pré-filtrées (optionnel)
+
+        Returns:
+            Dictionnaire avec les recommandations
+        """
+        # Utiliser les données filtrées ou toutes les données
+        data = filtered_data.copy() if filtered_data is not None else self.df.copy()
+
+        # Filtrage de base selon les critères
+        data = data[
+            (data["valeur_fonciere"] <= budget_max)
+            & (data["surface_reelle_bati"] >= surface_range[0])
+            & (data["surface_reelle_bati"] <= surface_range[1])
+        ]
+
+        if len(data) == 0:
+            return {"error": "Aucun bien ne correspond aux critères"}
+
+        # Joindre les statistiques communales
+        data = data.merge(
+            self.commune_stats[["nom_commune", "prix_m2_median", "nb_transactions"]],
+            on="nom_commune",
+            how="left",
+            suffixes=("", "_commune"),
+        )
+
+        # Calcul des scores selon le profil
+        if profile == "debutant":
+            data = self._score_for_beginner(data)
+            sort_column = "score_securite"
+        elif profile == "experimente":
+            data = self._score_for_experienced(data)
+            sort_column = "score_opportunite"
+        else:  # equilibre
+            data = self._score_for_balanced(data)
+            sort_column = "score_equilibre"
+
+        # Top 10 des recommandations
+        recommendations = data.nlargest(10, sort_column)
+
+        # Analyse des zones recommandées
+        zones_analysis = self._analyze_recommended_zones(recommendations)
+
+        # Conseils personnalisés
+        conseils = self._get_personalized_advice(profile)
+
+        return {
+            "profile": profile,
+            "budget": budget_max,
+            "surface_range": surface_range,
+            "nb_biens_analyses": len(data),
+            "recommendations": recommendations[
+                [
+                    "nom_commune",
+                    "code_departement",
+                    "valeur_fonciere",
+                    "surface_reelle_bati",
+                    "prix_m2",
+                    "type_local",
+                    "nombre_pieces_principales",
+                    "annee",
+                    sort_column,
+                ]
+            ].to_dict("records"),
+            "zones_analysis": zones_analysis,
+            "conseils": conseils,
+        }
+
+    def _score_for_beginner(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Calcule le score pour profil débutant (sécurité prioritaire)"""
+        data = data.copy()
+        median_prix_m2 = data["prix_m2"].median()
+        median_prix = data["valeur_fonciere"].median()
+
+        data["score_securite"] = (
+            (1 - (data["prix_m2"] / median_prix_m2)) * 40  # Bonus prix/m² bas
+            + (1 - (data["valeur_fonciere"] / median_prix))
+            * 30  # Bonus prix absolu bas
+            + np.log(data["nb_transactions"] + 1) * 15  # Bonus volume transactions
+        )
+
+        return data
+
+    def _score_for_experienced(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Calcule le score pour profil expérimenté (opportunités prioritaires)"""
+        data = data.copy()
+
+        # Écart par rapport au prix médian de la commune
+        data["ecart_prix"] = (data["prix_m2_median"] - data["prix_m2"]) / data[
+            "prix_m2_median"
+        ]
+        data["ecart_prix"] = data["ecart_prix"].fillna(0)
+
+        data["score_opportunite"] = (
+            data["ecart_prix"] * 50  # Bonus pour prix sous la médiane communale
+            + (1000 / data["prix_m2"]) * 20  # Bonus prix/m² relativement bas
+            + np.log(data["nb_transactions"] + 1) * 15  # Bonus activité
+        )
+
+        return data
+
+    def _score_for_balanced(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Calcule le score pour profil équilibré"""
+        data = data.copy()
+        median_prix_m2 = data["prix_m2"].median()
+
+        # Écart par rapport au prix médian de la commune
+        data["ecart_prix"] = (data["prix_m2_median"] - data["prix_m2"]) / data[
+            "prix_m2_median"
+        ]
+        data["ecart_prix"] = data["ecart_prix"].fillna(0)
+
+        data["score_equilibre"] = (
+            (1 - (data["prix_m2"] / median_prix_m2)) * 25  # Sécurité prix
+            + data["ecart_prix"] * 25  # Opportunité
+            + np.log(data["nb_transactions"] + 1) * 20  # Volume
+            + (data["surface_reelle_bati"] / 100) * 10  # Bonus surface
+        )
+
+        return data
+
+    def _analyze_recommended_zones(self, recommendations: pd.DataFrame) -> Dict:
+        """Analyse les zones des biens recommandés"""
+        zones_analysis = (
+            recommendations.groupby("nom_commune")
+            .agg(
+                {
+                    "valeur_fonciere": ["count", "median"],
+                    "prix_m2": "median",
+                    "surface_reelle_bati": "median",
+                }
+            )
+            .round(0)
+        )
+
+        zones_analysis.columns = [
+            "nb_recommandations",
+            "prix_median",
+            "prix_m2_median",
+            "surface_mediane",
+        ]
+        zones_analysis = zones_analysis.sort_values(
+            "nb_recommandations", ascending=False
+        )
+
+        return zones_analysis.to_dict("index")
+
+    def _get_personalized_advice(self, profile: str) -> List[str]:
+        """Génère des conseils personnalisés selon le profil"""
+        conseils_base = {
+            "debutant": [
+                "🔒 Privilégiez les zones avec beaucoup de transactions (marché liquide)",
+                "📈 Évitez les prix/m² trop éloignés de la médiane locale",
+                "🏦 Considérez la facilité de revente dans ces zones actives",
+                "📍 Concentrez-vous sur les départements que vous connaissez",
+                "⏱️ Prenez le temps d'analyser plusieurs biens similaires",
+            ],
+            "experimente": [
+                "🎯 Recherchez les biens sous-évalués par rapport à leur commune",
+                "📊 Analysez les tendances d'évolution des prix dans ces zones",
+                "🔄 Considérez le potentiel de rénovation/amélioration",
+                "💹 Évaluez les perspectives de développement local",
+                "⚡ Agissez rapidement sur les bonnes opportunités",
+            ],
+            "equilibre": [
+                "⚖️ Équilibrez sécurité (volume) et opportunité (prix)",
+                "📈 Diversifiez géographiquement vos investissements",
+                "🔍 Vérifiez la cohérence prix/surface/localisation",
+                "📋 Constituez une liste de surveillance de plusieurs biens",
+                "🎯 Définissez des critères clairs avant de visiter",
+            ],
+        }
+
+        return conseils_base.get(profile, conseils_base["equilibre"])
 
 
 class InvestmentRecommendationEngine:
@@ -966,7 +1543,9 @@ class InvestmentRecommendationEngine:
             DataFrame intégré avec estimations de loyer
         """
         if self.rental_data is None:
-            print("⚠️ Pas de données de loyer disponibles - création de données simulées")
+            print(
+                "⚠️ Pas de données de loyer disponibles - création de données simulées"
+            )
             return self._create_simulated_rental_data()
 
         # Préparation des codes département dans les données de loyer
@@ -1001,7 +1580,8 @@ class InvestmentRecommendationEngine:
         )
 
         dvf_with_rental["loyer_m2_estime"] = (
-            dvf_with_rental["loyer_mensuel_estime"] / dvf_with_rental["surface_reelle_bati"]
+            dvf_with_rental["loyer_mensuel_estime"]
+            / dvf_with_rental["surface_reelle_bati"]
         )
 
         return dvf_with_rental
@@ -1026,7 +1606,9 @@ class InvestmentRecommendationEngine:
         )
 
         # Rendement net estimé (brut - 25% de charges et impôts)
-        data_with_yields["rendement_net_estime"] = data_with_yields["rendement_brut"] * 0.75
+        data_with_yields["rendement_net_estime"] = (
+            data_with_yields["rendement_brut"] * 0.75
+        )
 
         # Classification des rendements
         conditions = [
@@ -1038,7 +1620,9 @@ class InvestmentRecommendationEngine:
 
         choices = ["Excellent", "Très bon", "Bon", "Moyen"]
 
-        data_with_yields["classe_rendement"] = np.select(conditions, choices, default="Faible")
+        data_with_yields["classe_rendement"] = np.select(
+            conditions, choices, default="Faible"
+        )
 
         return data_with_yields
 
@@ -1111,7 +1695,9 @@ class InvestmentRecommendationEngine:
                     np.where(
                         data_with_scores["nb_transactions_commune"] >= 10,
                         4,
-                        np.where(data_with_scores["nb_transactions_commune"] >= 5, 2, 0),
+                        np.where(
+                            data_with_scores["nb_transactions_commune"] >= 5, 2, 0
+                        ),
                     ),
                 ),
             ),
@@ -1220,7 +1806,9 @@ class InvestmentRecommendationEngine:
         if "score_rendement" in data.columns:
             agg_dict["score_rendement"] = "mean"
 
-        zones_analysis = data.groupby(["nom_commune", "code_departement"]).agg(agg_dict).round(2)
+        zones_analysis = (
+            data.groupby(["nom_commune", "code_departement"]).agg(agg_dict).round(2)
+        )
 
         # Debug: print columns before flattening
         # print("Colonnes avant aplatissement:", zones_analysis.columns.tolist())
@@ -1258,7 +1846,9 @@ class InvestmentRecommendationEngine:
         )
 
         # Filtrer par nombre minimum de transactions
-        zones_attractives = zones_analysis[zones_analysis["nb_transactions"] >= min_transactions]
+        zones_attractives = zones_analysis[
+            zones_analysis["nb_transactions"] >= min_transactions
+        ]
 
         # Ajouter des indicateurs de performance
         if (
@@ -1266,11 +1856,15 @@ class InvestmentRecommendationEngine:
             and "score_prix" in zones_attractives.columns
         ):
             zones_attractives["rentabilite_prix"] = (
-                zones_attractives["rendement_brut"] * zones_attractives["score_prix"] / 100
+                zones_attractives["rendement_brut"]
+                * zones_attractives["score_prix"]
+                / 100
             )
 
         # Classement par score global
-        zones_attractives = zones_attractives.sort_values("score_global", ascending=False)
+        zones_attractives = zones_attractives.sort_values(
+            "score_global", ascending=False
+        )
 
         # Catégorisation des zones
         zones_attractives["categorie_zone"] = np.where(
@@ -1279,7 +1873,11 @@ class InvestmentRecommendationEngine:
             np.where(
                 zones_attractives["score_global"] >= 5,
                 "Zone Attractive",
-                np.where(zones_attractives["score_global"] >= 3, "Zone Correct", "Zone à Éviter"),
+                np.where(
+                    zones_attractives["score_global"] >= 3,
+                    "Zone Correct",
+                    "Zone à Éviter",
+                ),
             ),
         )
 
@@ -1315,7 +1913,7 @@ class InvestmentRecommendationEngine:
     def _get_top_recommendations(self, filtered_zones: pd.DataFrame) -> list:
         """Obtient les 5 meilleures recommandations"""
         top_recommendations = filtered_zones.head(5)
-        
+
         available_cols = ["nom_commune", "code_departement"]
         optional_cols = [
             "score_global",
@@ -1370,7 +1968,9 @@ class InvestmentRecommendationEngine:
             .rename(columns={"nom_commune": "nb_communes_attractives"})
         )
 
-        return dept_analysis.sort_values("score_global", ascending=False).to_dict("index")
+        return dept_analysis.sort_values("score_global", ascending=False).to_dict(
+            "index"
+        )
 
     def _calculate_portfolio_stats(
         self, filtered_zones: pd.DataFrame, budget_max: float
@@ -1383,10 +1983,14 @@ class InvestmentRecommendationEngine:
                 filtered_zones["rendement_brut"].mean()
             )
         if "prix_moyen" in filtered_zones.columns:
-            portfolio_stats["prix_moyen_zone"] = float(filtered_zones["prix_moyen"].mean())
+            portfolio_stats["prix_moyen_zone"] = float(
+                filtered_zones["prix_moyen"].mean()
+            )
             min_ratio = filtered_zones["prix_moyen"].min() / budget_max * 100
             max_ratio = filtered_zones["prix_moyen"].max() / budget_max * 100
-            portfolio_stats["budget_utilisation"] = f"{min_ratio:.1f}% - {max_ratio:.1f}%"
+            portfolio_stats["budget_utilisation"] = (
+                f"{min_ratio:.1f}% - {max_ratio:.1f}%"
+            )
         if "score_global" in filtered_zones.columns:
             portfolio_stats["score_global_moyen"] = float(
                 filtered_zones["score_global"].mean()
@@ -1432,14 +2036,18 @@ class InvestmentRecommendationEngine:
         # Génération des recommandations
         recommendations["top_5_global"] = self._get_top_recommendations(filtered_zones)
         recommendations.update(self._get_strategies_recommendations(filtered_zones))
-        recommendations["analyse_departements"] = self._analyze_departments(filtered_zones)
+        recommendations["analyse_departements"] = self._analyze_departments(
+            filtered_zones
+        )
         recommendations["statistiques_portefeuille"] = self._calculate_portfolio_stats(
             filtered_zones, budget_max
         )
 
         return recommendations
 
-    def create_executive_summary(self, recommendations: Dict, zones_data: pd.DataFrame) -> Dict:
+    def create_executive_summary(
+        self, recommendations: Dict, zones_data: pd.DataFrame
+    ) -> Dict:
         """
         T033 - Crée un résumé exécutif des recommandations
 
@@ -1455,8 +2063,12 @@ class InvestmentRecommendationEngine:
         # Vue d'ensemble du marché
         market_overview = {
             "total_zones_analysees": len(zones_data),
-            "zones_premium": len(zones_data[zones_data["categorie_zone"] == "Zone Premium"]),
-            "zones_attractives": len(zones_data[zones_data["categorie_zone"] == "Zone Attractive"]),
+            "zones_premium": len(
+                zones_data[zones_data["categorie_zone"] == "Zone Premium"]
+            ),
+            "zones_attractives": len(
+                zones_data[zones_data["categorie_zone"] == "Zone Attractive"]
+            ),
             "rendement_moyen_marche": float(zones_data["rendement_brut"].mean()),
             "prix_m2_moyen_marche": float(zones_data["prix_m2"].mean()),
         }
@@ -1486,8 +2098,12 @@ class InvestmentRecommendationEngine:
 
         # Analyse des risques
         risk_analysis = {
-            "zones_a_eviter": len(zones_data[zones_data["categorie_zone"] == "Zone à Éviter"]),
-            "zones_faible_liquidite": len(zones_data[zones_data["nb_transactions"] < 10]),
+            "zones_a_eviter": len(
+                zones_data[zones_data["categorie_zone"] == "Zone à Éviter"]
+            ),
+            "zones_faible_liquidite": len(
+                zones_data[zones_data["nb_transactions"] < 10]
+            ),
             "zones_rendement_faible": len(zones_data[zones_data["rendement_brut"] < 3]),
             "recommandations_risque": [
                 "Privilégier les zones avec plus de 10 transactions annuelles",
