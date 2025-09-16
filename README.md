@@ -9,17 +9,15 @@
 
 ---
 
-*Dernière mise à jour : Septembre 2025 | Version simplifiée*ssement immobilier locatif**
-
 > Interface interactive simple et efficace pour analyser le marché immobilier français
 
-📊 **26,914 transactions analysées** • 🗓️ **Période 2019-2023** • 📍 **Départements 91 & 94**
+📊 **26,914 transactions analysées** • 🗓️ **Année 2024** • 📍 **Départements 91 & 94**
 
 ## 🎯 Objectif
 
 Fournir aux investisseurs immobiliers une **analyse claire et interactive** des données DVF pour identifier les meilleures opportunités d'investissement locatif.
 
-## � Démarrage Rapide
+## 🚀 Démarrage Rapide
 
 ### 1. **Installation**
 ```bash
@@ -55,14 +53,14 @@ jupyter lab
 
 ```
 ProjetFoncier/
-├── � assets/
+├── 📁 assets/
 │   └── dataset.csv                           # Données DVF brutes (26,914 transactions)
-├── � notebooks/
+├── 📁 notebooks/
 │   ├── 01_preprocessing.ipynb                # Nettoyage des données
 │   └── 02_application_investisseur.ipynb     # Interface d'analyse complète
-├── �️ src/
+├── 📁 src/
 │   └── dvf_utils.py                         # Fonctions utilitaires
-├── � outputs/
+├── 📁 outputs/
 │   └── dvf_cleaned_2019_2023.csv            # Données nettoyées (générées)
 └── requirements.txt                          # Dépendances Python
 ```
@@ -85,7 +83,7 @@ ProjetFoncier/
 ```python
 # Filtrage en temps réel
 Département: [91, 94, Tous]
-Années: [2019-2023]
+Années: [2024]
 Prix: [50k€ - 1M€+]
 Surface: [20m² - 200m²+]
 Type: [Appartement, Maison]
@@ -134,6 +132,6 @@ ipywidgets>=8.0.0    # Interface interactive
 
 ## ⚠️ Points d'Attention
 
-- 📊 **Données historiques** : Période 2019-2023, tendances passées ≠ performances futures
+- 📊 **Données historiques** : Période 2024, tendances passées ≠ performances futures
 - 🏠 **Scope géographique** : Départements 91 & 94 uniquement
 - 💡 **Usage recommandé** : Outil d'aide à la décision, validation locale conseillée
