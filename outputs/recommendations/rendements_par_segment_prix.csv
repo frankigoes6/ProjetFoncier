@@ -1,5 +1,0 @@
-segment_prix,rendement_brut_mean,rendement_brut_median,rendement_brut_std,rendement_brut_count,prix_m2_mean,prix_m2_min,prix_m2_max,surface_reelle_bati_mean,valeur_fonciere_mean
-Abordable,9.6,9.55,1.09,3143,2147.95,1650.48,2498.51,110.53,235644.97
-Moyen,6.62,6.53,0.98,10326,3239.74,2500.0,3999.75,86.95,278387.07
-Premium,2.82,2.94,0.78,5996,8956.86,6000.0,23625.0,70.97,634791.27
-Élevé,4.65,4.6,0.6,7449,4846.56,4000.0,5999.08,71.59,345866.02
