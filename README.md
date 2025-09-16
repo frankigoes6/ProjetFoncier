@@ -46,6 +46,3 @@ Ces variables sont **essentielles** pour calculer le prix au m², comparer avec 
 3. **Localisation** → commune, code\_postal, latitude/longitude.
 4. **Temporalité** → date\_mutation.
 5. **Informations complémentaires** → lots, parcelles, culture (secondaire).
-
-
-Veux-tu que je t’écrive aussi une **version anglaise** (README bilingue), pour que ton repo soit compréhensible par un public plus large ?
